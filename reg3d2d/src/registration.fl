@@ -1,0 +1,877 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0302 
+header_name {.h} 
+code_name {.cpp}
+class Registration2D3D {open
+} {
+  Function {Registration2D3D()} {open
+  } {
+    Fl_Window mainWindow {
+      label {3D/2D Registration} open
+      xywh {528 491 1024 691} type Double resizable visible
+    } {
+      Fl_Group {} {open
+        xywh {0 38 1020 632}
+      } {
+        Fl_Choice param0 {
+          label Param0
+          xywh {850 544 120 25} down_box BORDER_BOX
+        } {
+          MenuItem x0 {
+            label X
+            xywh {20 20 100 20}
+          }
+          MenuItem y0 {
+            label Y
+            xywh {20 20 100 20}
+          }
+          MenuItem z0 {
+            label Z
+            xywh {20 20 100 20}
+          }
+          MenuItem rx0 {
+            label rotX
+            xywh {30 30 100 20}
+          }
+          MenuItem ry0 {
+            label rotY
+            xywh {30 30 100 20}
+          }
+          MenuItem rz0 {
+            label rotZ
+            xywh {30 30 100 20}
+          }
+        }
+        Fl_Choice param1 {
+          label Param1
+          xywh {850 577 120 25} down_box BORDER_BOX
+        } {
+          MenuItem x1 {
+            label X
+            xywh {30 30 100 20}
+          }
+          MenuItem y1 {
+            label Y
+            xywh {30 30 100 20}
+          }
+          MenuItem z1 {
+            label Z
+            xywh {30 30 100 20}
+          }
+          MenuItem rx1 {
+            label rotX
+            xywh {40 40 100 20}
+          }
+          MenuItem ry1 {
+            label rotY
+            xywh {40 40 100 20}
+          }
+          MenuItem rz1 {
+            label rotZ
+            xywh {40 40 100 20}
+          }
+        }
+        Fl_Group {} {open
+          xywh {15 38 965 488} resizable
+        } {
+          Fl_Box viewer {
+            label view selected
+            xywh {15 38 454 487}
+            code0 {\#include "ogl.h"}
+            class oglView
+          }
+          Fl_Box plotter {
+            label plot
+            xywh {590 55 390 365}
+            code0 {\#include "ogl.h"}
+            class oglPlot
+          }
+        }
+        Fl_Value_Slider slx {
+          label X
+          callback {float a = o->value();
+set_vx(a);
+//viewer->set_rez(0);
+viewer->redraw();}
+          xywh {305 559 240 25} type Horizontal align 4
+        }
+        Fl_Value_Slider sly {
+          label Y
+          callback {float a = o->value();
+set_vy(a);
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {305 593 240 25} type Horizontal align 4
+        }
+        Fl_Value_Slider slz {
+          label Z
+          callback {float a = o->value();
+set_vz(a);
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {305 626 240 25} type Horizontal align 4
+        }
+        Fl_Value_Slider slrx {
+          label rotX
+          callback {float a = o->value();
+set_rx(a);
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {35 562 235 25} type Horizontal align 4
+          code0 {\#include "projection.h"}
+        }
+        Fl_Value_Slider slry {
+          label rotY
+          callback {float a = o->value();
+set_ry(a);
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {35 594 235 25} type Horizontal align 4
+        }
+        Fl_Value_Slider slrz {
+          label rotZ
+          callback {float a = o->value();
+set_rz(a);
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {35 627 235 23} type Horizontal align 4
+        }
+        Fl_Slider trans {
+          label imagtransp
+          callback {float a = o->value();
+set_trans((unsigned char)a);
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {580 546 25 100}
+        }
+        Fl_Button hi_rez {
+          label HiRez
+          callback {viewer->set_rez(1);}
+          xywh {715 545 55 30}
+        }
+        Fl_Button run {
+          label Run
+          xywh {930 621 40 25}
+        }
+        Fl_Input eval {
+          label Eval
+          user_data this
+          callback {Registration2D3D* reg = (Registration2D3D*)v;
+reg->run->do_callback();}
+          xywh {745 621 175 25} when 8
+          code0 {\#include "string_stream.h"}
+        }
+        Fl_Button coarse {
+          label Coarse
+          callback {set_sliders( 0 );}
+          xywh {35 530 40 20} labelsize 10
+        }
+        Fl_Button fine {
+          label Fine
+          callback {set_sliders(1);}
+          xywh {90 530 40 20} labelsize 10
+        }
+        Fl_Slider mtrans {
+          label modtransp
+          callback {float a = (float)(o->value());}
+          xywh {655 546 25 100} step 0.01 value 1
+        }
+        Fl_Button {} {
+          label Optimise
+          callback {optimise();}
+          xywh {715 585 60 25}
+          code0 {\#include "main.h"}
+        }
+        Fl_Button showNextFrame {
+          label ShowNextFrame
+          callback {displayRegistrationResults();}
+          xywh {155 530 85 20} labelsize 10
+        }
+      }
+      Fl_Menu_Bar {} {
+        label MenuBar open
+        xywh {0 0 405 25}
+      } {
+        Submenu {} {
+          label 3DEdge open
+          xywh {0 0 100 20}
+        } {
+          MenuItem {} {
+            label {Lighting...}
+            callback {LightCond->show();}
+            xywh {0 0 100 20}
+          }
+          MenuItem {} {
+            label {SCResolution...}
+            callback {SCResolution->show();}
+            xywh {0 0 100 20}
+          }
+          MenuItem {} {
+            label {Depth...}
+            callback {Depth->show();}
+            xywh {15 15 100 20}
+          }
+        }
+        Submenu {} {
+          label Deformation
+          xywh {0 100 100 20}
+        } {
+          MenuItem {} {
+            label {parameters...}
+            callback {Deformation->show();}
+            xywh {0 0 100 20}
+          }
+        }
+        Submenu {} {
+          label VideoRegistration
+          xywh {0 0 100 20}
+        } {
+          MenuItem {Parameters...} {
+            label {Parameters...}
+            callback {VidReg->show();}
+            xywh {5 5 100 20}
+          }
+          MenuItem {Store Images...} {
+            label {StoreImages...}
+            callback {StoreImg->show();}
+            xywh {15 15 100 20}
+          }
+        }
+        Submenu {} {
+          label LOAD open
+          xywh {0 0 62 20}
+        } {
+          MenuItem {} {
+            label Similarity
+            callback {eval_similarity(3);
+eval_similarity(0);
+eval_similarity(4);
+//save_pose();
+// manual pose 
+//generateProjections();}
+            xywh {0 0 31 20}
+          }
+          MenuItem {} {
+            label SavePose
+            callback {save_pose();}
+            xywh {10 10 31 20}
+          }
+          MenuItem {} {
+            label RegPQ
+            callback {//eval_similarity(3);
+//eval_similarity(0);
+//save_pose();
+generateProjectionsPQ();}
+            xywh {10 10 31 20}
+          }
+          MenuItem {} {
+            label RegIntensity
+            callback {//eval_similarity(3);
+//eval_similarity(0);
+//save_pose();
+//generateProjections();
+generateProjectionsIntensity();}
+            xywh {20 20 31 20}
+          }
+          MenuItem {} {
+            label RegDepth
+            callback {//eval_similarity(3);
+//eval_similarity(0);
+//save_pose();
+generateProjectionsDepth();}
+            xywh {30 30 31 20}
+          }
+          MenuItem {} {
+            label RegPQDepth
+            callback {//eval_similarity(3);
+//eval_similarity(0);
+//save_pose();
+generateProjectionsPQDepth();}
+            xywh {40 40 31 20}
+          }
+        }
+        Submenu {} {
+          label SHOW open
+          xywh {10 10 62 20}
+        } {
+          MenuItem {} {
+            label FileNames
+            callback {readInRegistrationFileNames();}
+            xywh {10 10 31 20}
+          }
+          MenuItem {} {
+            label NextFrame
+            callback {displayRegistrationResults();}
+            xywh {20 20 31 20}
+          }
+        }
+      }
+    }
+    Fl_Window LightCond {
+      label {Lighting Conditions} open
+      xywh {402 132 577 355} type Double hide
+    } {
+      Fl_Group {} {
+        label {RGB components}
+        xywh {10 20 205 175} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Value_Slider Rcomp {
+          label Red
+          callback {float a = (float)(o->value());
+set_redcomp(a);
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {35 25 25 145} type {Vert Knob} value 1
+        }
+        Fl_Value_Slider Gcomp {
+          label Green
+          callback {float a = (float)(o->value());
+set_greencomp(a);
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {80 25 25 145} type {Vert Knob} value 1
+        }
+        Fl_Value_Slider Bcomp {
+          label Blue
+          callback {float a = (float)(o->value());
+set_bluecomp(a);
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {120 25 25 145} type {Vert Knob} value 1
+        }
+        Fl_Value_Slider Acomp {
+          label Alpha
+          callback {float a = (float)(o->value());
+set_alphacomp(a);
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {155 25 25 145} type {Vert Knob} value 1
+        }
+      }
+      Fl_Group illumType {
+        label {Type of Illumination}
+        xywh {245 25 305 120} labeltype ENGRAVED_LABEL
+        code0 {LDiffuse->setonly();}
+      } {
+        Fl_Round_Button LAmbient {
+          label {Light: Ambient}
+          callback {if(LAmbient->value()) set_illumtype(0);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+          xywh {270 50 115 25} down_box ROUND_DOWN_BOX
+          code0 {illumType->add(LAmbient);}
+          code1 {LAmbient->type(FL_RADIO_BUTTON);}
+        }
+        Fl_Round_Button LDiffuse {
+          label {Light: Diffuse}
+          callback {if(LDiffuse->value()) set_illumtype(1);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+          xywh {270 80 110 25} down_box ROUND_DOWN_BOX
+          code0 {illumType->add(LDiffuse);}
+          code1 {LDiffuse->type(FL_RADIO_BUTTON);}
+        }
+        Fl_Round_Button LSpecular {
+          label {Light: Specular}
+          callback {if(LSpecular->value()) set_illumtype(2);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+          xywh {270 105 120 30} down_box ROUND_DOWN_BOX
+          code0 {illumType->add(LSpecular);}
+          code1 {LSpecular->type(FL_RADIO_BUTTON);}
+        }
+        Fl_Round_Button MAmbient {
+          label {Material: Ambient}
+          callback {if(MAmbient->value()) set_illumtype(3);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+          xywh {405 50 130 25} down_box ROUND_DOWN_BOX
+          code0 {illumType->add(MAmbient);}
+          code1 {MAmbient->type(FL_RADIO_BUTTON);}
+        }
+        Fl_Round_Button MDiffuse {
+          label {Material: Diffuse}
+          callback {if(MDiffuse->value()) set_illumtype(4);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+          xywh {405 80 130 25} down_box ROUND_DOWN_BOX
+          code0 {illumType->add(MDiffuse);}
+          code1 {MDiffuse->type(FL_RADIO_BUTTON);}
+        }
+        Fl_Round_Button MSpecular {
+          label {Material: Specular}
+          callback {if(MSpecular->value()) set_illumtype(5);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+          xywh {405 110 140 25} down_box ROUND_DOWN_BOX
+          code0 {illumType->add(MSpecular);}
+          code1 {MSpecular->type(FL_RADIO_BUTTON);}
+        }
+      }
+      Fl_Group {} {
+        label SpotLight open
+        xywh {5 225 205 110} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Check_Button SpotOn {
+          label On
+          callback {bool on = o->value();
+if(!on) set_spotlight( 180.0, 0.0 );
+else 
+set_spotlight( SpotAngle->value(), SpotExp->value());
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {30 230 55 20} down_box DOWN_BOX
+        }
+        Fl_Value_Slider SpotExp {
+          label SpotExponent
+          callback {if(SpotOn->value()) 
+{
+set_spotlight( SpotAngle->value(), SpotExp->value() );
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();
+}}
+          xywh {30 290 175 20} type {Horz Knob} maximum 50
+        }
+        Fl_Value_Slider SpotAngle {
+          label SpotCutOff
+          callback {if(SpotOn->value())
+{ 
+set_spotlight( SpotAngle->value(), SpotExp->value() );
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();
+}}
+          xywh {30 250 175 20} type {Horz Knob} maximum 90 value 90
+        }
+      }
+      Fl_Group {} {
+        label {Attenuation Coeffecients} open
+        xywh {310 210 225 130} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Value_Slider ConAtten {
+          label {Constant Attenuation}
+          callback {set_attenuation(ConAtten->value(),LinAtten->value(),QuadAtten->value());
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {320 215 205 20} type {Horz Knob} maximum 10 step 0.001 value 1
+        }
+        Fl_Value_Slider LinAtten {
+          label {Linear Attenuation}
+          callback {set_attenuation(ConAtten->value(),LinAtten->value(),QuadAtten->value());
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {320 255 205 20} type {Horz Knob} maximum 30
+        }
+        Fl_Value_Slider QuadAtten {
+          label {Quadratic Attenuation}
+          callback {set_attenuation(ConAtten->value(),LinAtten->value(),QuadAtten->value());
+viewer->set_rez(0);
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {320 295 205 20} type {Horz Knob} maximum 100
+        }
+      }
+      Fl_Group {} {
+        label Shineness open
+        xywh {300 160 235 30} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Value_Slider shin {
+          callback {set_shininess( o->value() );
+viewer->set_rez(0);
+viewer->redraw();}
+          xywh {325 170 200 15} type {Horz Knob} maximum 100
+        }
+      }
+      Fl_Button {} {
+        label {Update Form}
+        callback {float a;
+get_shininess(&a);shin->value(a);
+float a0,a1,a2;
+get_attenuation(&a0,&a1,&a2);
+ConAtten->value(a0);LinAtten->value(a1);QuadAtten->value(a2);
+if(SpotOn->value()){
+get_spotlight(&a0,&a1); 
+SpotAngle->value(a0);SpotExp->value(a1);
+}
+LDiffuse->setonly();set_illumtype(1);
+float *rgba = get_RGBAvalues();
+Rcomp->value(rgba[0]);
+Gcomp->value(rgba[1]);
+Bcomp->value(rgba[2]);
+Acomp->value(rgba[3]);}
+        xywh {205 195 85 25} labeltype EMBOSSED_LABEL
+      }
+    }
+    Fl_Window Deformation {
+      label Deformation open
+      xywh {699 240 344 189} type Double hide
+    } {
+      Fl_Group {} {
+        label {Define Sphere}
+        xywh {5 20 290 160} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Value_Slider {} {
+          label radius
+          callback {set_radius(o->value());
+viewer->redraw();}
+          xywh {25 35 245 20} type {Horz Knob} maximum 0.4 step 0.001 value 0.1
+        }
+        Fl_Button {} {
+          label Deform
+          callback {ApplyDeformation();
+viewer->redraw();}
+          xywh {55 145 80 25} labeltype EMBOSSED_LABEL
+        }
+        Fl_Value_Input {} {
+          label Deformation
+          callback {set_deform_amount(o->value());}
+          xywh {108 112 60 25}
+        }
+        Fl_Button {} {
+          label {Sphere Center}
+          callback {DefineSphereCenter();
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {162 77 105 20} labeltype EMBOSSED_LABEL
+        }
+        Fl_Check_Button {} {
+          label {Draw Sphere}
+          callback {set_draw_sphere(o->value());
+viewer->redraw();}
+          xywh {30 75 105 25} down_box DOWN_BOX
+        }
+        Fl_Button {} {
+          label {Restore Deformation}
+          callback {RestoreOriginal();
+viewer->redraw();}
+          xywh {150 145 140 25} labeltype EMBOSSED_LABEL
+        }
+      }
+    }
+    Fl_Window VidReg {
+      label {Video Frames Registration} open
+      xywh {547 123 524 366} type Double hide
+    } {
+      Fl_Group {} {open
+        xywh {0 15 520 350}
+      } {
+        Fl_Group {} {
+          label {Define Input-Output Parameters} open
+          xywh {5 15 515 175} box ENGRAVED_BOX labeltype ENGRAVED_LABEL
+        } {
+          Fl_Value_Input InitFr {
+            label {Initial Frame:}
+            xywh {95 40 55 25}
+          }
+          Fl_Value_Input FinFr {
+            label {Final Frame:}
+            xywh {95 75 55 25} value 10
+          }
+          Fl_File_Input InPath {
+            label {File input:}
+            xywh {230 30 270 40}
+          }
+          Fl_File_Input OutPath {
+            label {File output:}
+            xywh {230 75 270 40}
+          }
+          Fl_Value_Input Stp {
+            label {Step:}
+            xywh {95 115 35 25} step 1 value 1
+          }
+          Fl_Button {} {
+            label {Load Opt Results}
+            callback {set_info_start( InitFr->value(), FinFr->value(), Stp->value(), InPath->value(), OutPath->value());
+int temp = load_reg_result(OutPath->value());
+if( temp ){
+Num_Frame->activate();
+Num_Frame->minimum(1);
+Num_Frame->maximum(temp);
+Num_Frame->value(1);
+moveslider(1);}
+else Num_Frame->deactivate();}
+            xywh {160 123 145 25} labeltype EMBOSSED_LABEL
+          }
+          Fl_Value_Slider Num_Frame {
+            label Frame
+            callback {int a = (int)(o->value());
+moveslider(a);}
+            xywh {15 154 500 20} type {Horz Knob} maximum 10 step 1 deactivate
+          }
+        }
+        Fl_Group Optimisation {
+          label Optimization
+          xywh {3 215 235 140} box EMBOSSED_BOX labeltype ENGRAVED_LABEL
+        } {
+          Fl_Button {} {
+            label {clear pq}
+            callback {clear_shape_info();}
+            xywh {88 330 70 20} labeltype EMBOSSED_LABEL
+          }
+          Fl_Button {} {
+            label {Frame Optimiser}
+            callback {set_info_start( InitFr->value(), FinFr->value(), Stp->value(), InPath->value(), OutPath->value());
+optimise_video();}
+            xywh {13 300 115 20} labeltype EMBOSSED_LABEL
+            code0 {\#include "main.h"}
+          }
+          Fl_Check_Button {} {
+            label Deformation
+            callback {bool a = (bool)(o->value());
+set_deform( a );}
+            xywh {13 275 105 20} down_box DOWN_BOX
+            code0 {\#include "projection.h"}
+          }
+          Fl_Choice reg_method {
+            label {method:}
+            xywh {63 220 150 20} down_box BORDER_BOX
+            code0 {o->value(3);}
+          } {
+            MenuItem {} {
+              label {Intensity Based}
+              xywh {5 5 100 20}
+            }
+            MenuItem {} {
+              label {Feature-Hausdorff}
+              xywh {5 5 100 20}
+            }
+            MenuItem {} {
+              label {Feature-Contours}
+              xywh {5 5 100 20}
+            }
+            MenuItem {} {
+              label ShapeShading
+              xywh {5 5 100 20}
+            }
+          }
+          Fl_Value_Output win_x0 {
+            label {x0:}
+            callback {int mousecoord[4]={(int)(win_x0->value()),(int)(win_y0->value()),(int)(win_x1->value()),(int)(win_y1->value())};
+setmousecoord( mousecoord );}
+            xywh {33 245 30 20} maximum 1000 step 1
+          }
+          Fl_Value_Output win_y0 {
+            label {y0:}
+            callback {int mousecoord[4]={(int)(win_x0->value()),(int)(win_y0->value()),(int)(win_x1->value()),(int)(win_y1->value())};
+setmousecoord( mousecoord );}
+            xywh {88 245 30 20} maximum 1000 step 1
+          }
+          Fl_Button {} {
+            label {Stop Optimiser}
+            callback {set_abort_praxis( true );
+halt_praxis();}
+            xywh {133 300 100 20} labeltype EMBOSSED_LABEL
+            code0 {\#include "praxis.h"}
+          }
+          Fl_Value_Output win_x1 {
+            label {x1:}
+            callback {int mousecoord[4]={(int)(win_x0->value()),(int)(win_y0->value()),(int)(win_x1->value()),(int)(win_y1->value())};
+setmousecoord( mousecoord );}
+            xywh {141 244 30 20} maximum 1000 step 1
+          }
+          Fl_Value_Output win_y1 {
+            label {y1:}
+            callback {int mousecoord[4]={(int)(win_x0->value()),(int)(win_y0->value()),(int)(win_x1->value()),(int)(win_y1->value())};
+setmousecoord( mousecoord );}
+            xywh {198 244 30 20} maximum 1000 step 1
+          }
+        }
+      }
+      Fl_Value_Slider {} {
+        label thres
+        callback {float a = (float)(o->value());
+set_def_threshold(a);}
+        xywh {245 195 25 140} type {Vert Knob} step 0.001
+      }
+      Fl_Group Optimisation1DOF {
+        label {Optimization - 1DOF}
+        xywh {283 213 235 140} box EMBOSSED_BOX labeltype ENGRAVED_LABEL
+      } {
+        Fl_Button FrOpt1DOF {
+          label {Frame Optimiser}
+          callback {set_info_start( InitFr->value(), FinFr->value(), Stp->value(), InPath->value(), OutPath->value());
+optimise_video1DOF();}
+          xywh {330 300 115 20} labeltype EMBOSSED_LABEL deactivate
+          code0 {\#include "main.h"}
+        }
+        Fl_Button {} {
+          label {Load Track Data...}
+          callback {bool temp = load_track_data();
+if(temp)
+  FrOpt1DOF->activate();
+else
+ FrOpt1DOF->deactivate();}
+          xywh {330 230 125 20} labeltype EMBOSSED_LABEL
+          code0 {\#include "main.h"}
+        }
+      }
+    }
+    Fl_Window StoreImg {
+      label {Store Images from 3D Model } open
+      xywh {10 99 426 428} type Double hide
+    } {
+      Fl_Group {} {
+        label {Store Frames}
+        xywh {10 25 455 240} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Button {} {
+          label {Store One Frame}
+          callback {set_store_info( InitStore->value(), FinStore->value(), StpStore->value(), StorePath->value(),imgwidth->value(), imgheight->value());
+storeFrame();}
+          xywh {70 185 120 25} labeltype EMBOSSED_LABEL
+        }
+        Fl_Button {} {
+          label {Store All Frames}
+          callback {set_store_info( InitStore->value(), FinStore->value(), StpStore->value(), StorePath->value(),imgwidth->value(), imgheight->value());
+StoreAllFrames();}
+          xywh {240 185 115 25} labeltype EMBOSSED_LABEL
+        }
+        Fl_File_Input StorePath {
+          label {File output:}
+          xywh {100 40 315 45}
+        }
+        Fl_Value_Input InitStore {
+          label {Initial Frame:}
+          xywh {105 100 55 25}
+        }
+        Fl_Value_Input FinStore {
+          label {Final Frame:}
+          xywh {255 100 55 25}
+        }
+        Fl_Value_Input StpStore {
+          label {Step:}
+          xywh {370 100 35 25} step 1 value 1
+        }
+        Fl_Value_Input imgwidth {
+          label {Image Width:}
+          xywh {105 145 55 25} value 320
+        }
+      }
+      Fl_Value_Input imgheight {
+        label {Image Height:}
+        xywh {260 145 55 25} value 240
+      }
+      Fl_Group {} {
+        label {Load Poses} open
+        xywh {5 245 415 165} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Value_Slider num_pose {
+          label {Num Poses}
+          callback {int a = (int)(o->value());
+next_pose(a);}
+          xywh {25 350 380 20} type {Horz Knob} labeltype EMBOSSED_LABEL step 1 deactivate
+        }
+        Fl_Button {} {
+          label {Load Pose File}
+          callback {int temp = load_reg_result(PosePath->value());
+if( temp ){
+num_pose->activate();
+num_pose->minimum(1);
+num_pose->maximum(temp);
+num_pose->value(1);
+next_pose(1);}
+else num_pose->deactivate();}
+          xywh {155 310 105 25} labeltype EMBOSSED_LABEL
+        }
+      }
+      Fl_File_Input PosePath {
+        label {Pose File:}
+        xywh {100 255 305 40}
+      }
+    }
+    Fl_Window SCResolution {
+      label {Screen Resolution} open
+      xywh {266 287 285 169} type Double hide
+    } {
+      Fl_Group {} {
+        label {View Screen}
+        xywh {10 30 125 95}
+      } {
+        Fl_Value_Input width1 {
+          label width1
+          xywh {64 45 55 25} value 555
+        }
+        Fl_Value_Input height1 {
+          label height1
+          xywh {65 85 55 25} value 420
+        }
+      }
+      Fl_Group {} {
+        label {Plot Screen} open
+        xywh {155 33 120 85}
+      } {
+        Fl_Value_Input width2 {
+          label width2
+          xywh {209 48 55 25} value 390
+        }
+        Fl_Value_Input height2 {
+          label height2
+          xywh {210 88 55 25} value 365
+        }
+      }
+      Fl_Button {} {
+        label Apply
+        callback {clear_shape_info();
+viewer->size(width1->value(),height1->value());
+plotter->size(width2->value(),height2->value());
+int tmp_mouse[4] = {0, 0 , viewer->w()-1, viewer->h()-1};
+setmousecoord(tmp_mouse);}
+        xywh {120 130 55 25}
+      }
+    }
+    Fl_Window Depth {
+      label Depth
+      xywh {414 184 298 146} type Double hide
+    } {
+      Fl_Group {} {
+        label NearFar open
+        xywh {5 20 285 115} labeltype ENGRAVED_LABEL
+      } {
+        Fl_Value_Slider {} {
+          label {near clip}
+          callback {set_near_clip(o->value());
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {25 35 245 20} type {Horz Knob} maximum 300 step 0.001 value 0.05
+        }
+        Fl_Value_Slider {} {
+          label {far clip}
+          callback {set_far_clip(o->value());
+viewer->force_reinit();
+viewer->redraw();}
+          xywh {25 80 245 20} type {Horz Knob} minimum 1 maximum 1000 step 1 value 100
+        }
+      }
+    }
+  }
+  Function {show(int argc, char **argv)} {open return_type void
+  } {
+    code {mainWindow->show(argc,argv);} {}
+  }
+} 
