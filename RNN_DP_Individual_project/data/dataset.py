@@ -48,10 +48,10 @@ class DataLoader(object):
                  image_width,
                  num_epochs,
                  num_views):
-        self.dataset_dir=dataset_dir
-        self.batch_size=batch_size
-        self.image_height=image_height
-        self.image_width=image_width
+        self.dataset_dir = dataset_dir
+        self.batch_size = batch_size
+        self.image_height = image_height
+        self.image_width = image_width
         self.num_epochs = num_epochs
         self.num_views = num_views
 
@@ -97,7 +97,7 @@ class DataLoader(object):
                     [self.image_height, 
                     self.image_width*self.num_views, 3]),
                 tf.float32)
-            
+
             depth_seq = tf.cast(
                 tf.reshape(depth_seq, 
                     [self.image_height, 
@@ -115,8 +115,8 @@ class DataLoader(object):
             
 
             # For testing, turn with_aug to false
-            if is_training:
-                data_dict = self.data_augmentation2(data_dict,self.image_height,self.image_width)
+            #if is_training:
+            #    data_dict = self.data_augmentation2(data_dict,self.image_height,self.image_width)
 
             return data_dict
 
@@ -275,7 +275,7 @@ class DataLoader(object):
                                         scaled_images[i], offset_y, offset_x, out_h, out_w)
                     cropped_depths = tf.image.crop_to_bounding_box(
                                         scaled_depths[i], offset_y, offset_x, out_h, out_w)
-                    cropped_images_norm =  tf.image.crop_to_bounding_box(
+                    cropped_images_norm = tf.image.crop_to_bounding_box(
                                         scaled_images_norm[i], offset_y, offset_x, out_h, out_w)
                 else:
                     cropped_images = tf.concat([cropped_images, tf.image.crop_to_bounding_box(

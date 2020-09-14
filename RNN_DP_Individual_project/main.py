@@ -76,7 +76,7 @@ def main():
     # Add flags
     parser = argparse.ArgumentParser(description="Train RNN depth")
     parser.add_argument("--dataset_dir", type=str, default="./data/training_data", help="The path to the data directory")
-    parser.add_argument("--checkpoint_dir", type=str, default="./data/eval_data", help="The path to the checkpoint directory")
+    parser.add_argument("--checkpoint_dir", type=str, default="./checkpoints", help="The path to the checkpoint directory")
     parser.add_argument("--continue_train", type=bool, default=False, help="Continue train")
     parser.add_argument("--restore_path", type=str, default="", help="The path to load checkpoint")
     parser.add_argument("--eval_set_dir", type=str, default=None, help="The path to the evaluation directory")

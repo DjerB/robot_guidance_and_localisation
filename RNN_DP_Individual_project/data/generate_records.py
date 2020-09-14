@@ -36,6 +36,7 @@ def long_image(views, max_views_num):
     RT_offset = 0
 
     for view in views:
+        print("Depth view shape ", view.depth.shape)
         new_im[:, x_offset:x_offset + width, :] = view.image
         new_depth[:, x_offset:x_offset + width] = view.depth
         x_offset += width
@@ -223,7 +224,7 @@ def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     return resized
 
 def random_crop_frame(img, height, width):
-    print(img.shape)
+    print("before cropping frame ", img.shape)
     range_height = img.shape[0] - height
     range_width = img.shape[1] - width
     y = randint(0, range_height)
@@ -285,11 +286,10 @@ def create_record_from_pairs(tfrecordfile, frames_path, depths_path, intrinsics_
     for idx in range(len(list_files)):
 
         frame_file = os.path.join(frames_path, list_files[idx])
-        if idx%50 ==0:
-            print(frame_file)
 
         depth_file = os.path.join(depths_path, list_files[idx][:-4] + ".txt")
 
+        image = cv2.imread(frame_file)
         image = image_resize(image, width=resizedwidth)
         image, y, x = random_crop_frame(image, resizedheight, resizedwidth)
 
@@ -298,12 +298,14 @@ def create_record_from_pairs(tfrecordfile, frames_path, depths_path, intrinsics_
 
         depth = read_depth(depth_file, (240, 320))
         depth = image_resize(depth, width=resizedwidth)
+        print("depth idx before cropping ", depth.shape)
         depth = crop_depth(depth, resizedheight, resizedwidth, y, x)
+        print("depth idx after cropping ", depth.shape)
 
-        S = generate_surface(depth, ori_width, ori_height, intrinsics_ori[0, 0], intrinsics_ori[1, 1],
-                             intrinsics_ori[0, 2], intrinsics_ori[1, 2])
+        #S = generate_surface(depth, ori_width, ori_height, intrinsics_ori[0, 0], intrinsics_ori[1, 1],
+        #                     intrinsics_ori[0, 2], intrinsics_ori[1, 2])
 
-        depth = generate_depth_map(homo_intrinsic, S, image.shape[:2])
+        #depth = generate_depth_map(homo_intrinsic, S, image.shape[:2])
 
         view1 = View(P=pose, K=intrinsics, image=image, depth=depth)
         views = [view1]
@@ -321,6 +323,7 @@ def create_record_from_pairs(tfrecordfile, frames_path, depths_path, intrinsics_
 
             depth_file = os.path.join(depths_path, list_files[idx2][:-4] + ".txt")
 
+            image = cv2.imread(frame_file)
             image = image_resize(image, width=resizedwidth)
             image, y, x = random_crop_frame(image, resizedheight, resizedwidth)
 
@@ -329,12 +332,14 @@ def create_record_from_pairs(tfrecordfile, frames_path, depths_path, intrinsics_
 
             depth = read_depth(depth_file, (240, 320))
             depth = image_resize(depth, width=resizedwidth)
+            print("depth idx2 before cropping ", depth.shape)
             depth = crop_depth(depth, resizedheight, resizedwidth, y, x)
+            print("depth idx2 after cropping ", depth.shape)
 
-            S = generate_surface(depth, ori_width, ori_height, intrinsics_ori[0, 0], intrinsics_ori[1, 1],
-                                 intrinsics_ori[0, 2], intrinsics_ori[1, 2])
+            #S = generate_surface(depth, ori_width, ori_height, intrinsics_ori[0, 0], intrinsics_ori[1, 1],
+            #                     intrinsics_ori[0, 2], intrinsics_ori[1, 2])
 
-            depth = generate_depth_map(homo_intrinsic, S, image.shape[:2])
+            #depth = generate_depth_map(homo_intrinsic, S, image.shape[:2])
 
             # Check whether the scene is static
             # If motion not big enough between frames, the candidate is dropped
@@ -377,7 +382,7 @@ def main():
     parser = argparse.ArgumentParser(description="Train RNN depth")
     parser.add_argument("--frames_dir", type=str, default="./endoscopy/150-1150bmp",
                         help="The path to the frames directory")
-    parser.add_argument("--depths_dir", type=str, default="../endoscopy/150-1150depth_corrected_ccx_ccy",
+    parser.add_argument("--depths_dir", type=str, default="./endoscopy/150-1150depth_corrected_ccx_ccy",
                         help="The path to the depths directory")
     parser.add_argument("--intrinsics_dir", type=str, default="./endoscopy/intrinsics.txt", help="The path to the intrinsics file")
     parser.add_argument("--poses_dir", type=str, default="./endoscopy/poses",
@@ -400,8 +405,8 @@ def main():
     if not os.path.exists(outputdir):
         os.makedirs(outputdir)
 
-    outfile = os.path.join(outputdir, f"{args.record_name}.tfrecords")
-    create_record_from_pairs(outfile, args.frames_dir, args.depths_dir, args.intrinsics_dir, initial_height=args.initial_height, initial_width=args.initial_width)
+    outfile = os.path.join(outputdir, args.record_name + ".tfrecords")
+    create_record_from_pairs(outfile, args.frames_dir, args.depths_dir, args.intrinsics_dir, args.poses_dir, initial_height=args.initial_height, initial_width=args.initial_width)
 
 if __name__ == "__main__":
     sys.exit(main())

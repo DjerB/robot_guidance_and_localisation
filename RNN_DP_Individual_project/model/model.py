@@ -104,7 +104,7 @@ def rnn_depth_net_decoderlstm(current_input,hidden_state,is_training=True):
             depth  = slim.conv2d(icnv1, 1,   [3, 3], stride=1,
                 activation_fn=tf.sigmoid, normalizer_fn=None, scope='disp1')*DISP_SCALING_RESNET50+MIN_DISP
 
-            retcurn depth, [hidden1, hidden2, hidden3, hidden4, hidden5, hidden6, hidden7]#,  hidden8, hidden9,hidden10, hidden11, hidden12, hidden13, hidden14,hidden15, hidden16]
+            return depth, [hidden1, hidden2, hidden3, hidden4, hidden5, hidden6, hidden7]#,  hidden8, hidden9,hidden10, hidden11, hidden12, hidden13, hidden14,hidden15, hidden16]
 
 
 def pose_net(posenet_inputs, hidden_state, is_training=True):
