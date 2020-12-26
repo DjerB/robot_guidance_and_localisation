@@ -14,11 +14,11 @@ The code is entirely provided by Mali Shen et al. [[1]](#1). It creates ground t
 
 <tt>main.cpp</tt> in <tt>reg3d2d/src</tt> requires manually defined pose and 3D CT model path.
 
-# CycleGAN for generating frames from depth maps
+# CycleGAN for generating frames from depth maps (Stage 2)
 
-<tt>CycleGAN_for_generating_frames.ipynb</tt> provides the steps to convert depth txt files from stage 1 and optionally use corresponding GT frames to train a CycleGAN model. The notebook is built upon Zhu et al.' work and their implementation [implementation](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix)
+<tt>CycleGAN_for_generating_frames.ipynb</tt> provides the steps to convert depth txt files from stage 1 and optionally use corresponding GT frames to train a CycleGAN model. The notebook is built upon Zhu et al.' work and their [implementation](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
-# RNN DP for estimating depth and relative pose using generated dataset and intrinsics and poses
+# RNN DP for estimating depth and relative pose using generated dataset and intrinsics and poses (Stage 3)
 
 <tt>rnn_dp/data/generate_records.py</tt> generates Tensorflow serialised records before training. It takes the GT frames and depths and poses directories and the camera intrinsics relative paths to create sequences of 10 consecutive frames. 
 
